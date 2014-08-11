@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+	<script src="javascripts/jquery-1.11.0.min.js"></script>
+	<script src="javascripts/lightbox.min.js"></script>
+	<link href="stylesheets/lightbox.css" rel="stylesheet" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>ExactTarget Connect by PrecisionDialogue Abandon Cart Configuration</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>ExactTarget Connect by PrecisionDialogue Abandon Cart Configuration</h1>
+          <h2>Details for configuring and customizing abandon cart emails for the ExactTarget Connect by PrecisionDialogue Magento module</h2>
+        </header>
+
+        <hr>
+
+        <section id="main_content">
+          <h3><a name="welcome" class="anchor" href="#welcome"><span class="octicon octicon-link"></span></a>Welcome the user documentation for configuring abaondon cart functionality in the <a href="http://ecommerce.precisiondialogue.com/services/magento-exacttarget-integration/">ExactTarget Connect</a> extension.</h3>
+
+			<p>These pages will detail the steps required to customize the functionality for abandoned cart reminder emails initiated in Magento and sent via ExactTarget. For a complete reference on customizing the content of the various email templates, including those used by the abandon cart functionality, see the reference <a href="http://precisiondialogue.github.io/Magento-ExactTarget-Email-Customization/" target="_blank">ExactTarget Connect Email Customizationon</a>.  
+			</p>
+
+			<h3><a name="toc" class="anchor" href="#toc"><span class="octicon octicon-link"></span></a>Table Of Contents</h3>
+			<ol>
+				<li><a href="#overview">System Overview</a></li>
+				<li><a href="#magento-options">Configuration Settings</a></li>
+				<li><a href="#email-options">Email Configuration</a></li>
+				<li><a href="#cron-settings">Cron Requirements</a></li>
+				<li><a href="#final">Final Steps</a></li>
+			</ol>
+        </section>
+
+		<section id="overview">
+			<h3><a name="overview" class="anchor" href="#overview"><span class="octicon octicon-link"></span></a>System Overview</h3>
+			<p>The ExactTarget Connect by Precision Dialogue extension enables the fulfilment of abandoned cart transactional emails by ExactTarget when triggered by a custom Magento cron task.  There are a variety of options that can be set to contol the timing and frequency of the emails as well as a way to provide custom incentives to convert abandoned carts into sales.</p>
+			<p>Because the abandon cart emails built on top of Magento transactional emails it is also possible to deeply customize the content of the emails. For full details of how to use the various email templating options available though the extension please see the <a href="http://precisiondialogue.github.io/Magento-ExactTarget-Email-Customization/" target="_blank">ExactTarget Connect Email Customizationon</a> documentation.</p>
+			
+        </section>
+
+		<section id="magento">
+			<h3><a name="magento-options" class="anchor" href="#magento-options"><span class="octicon octicon-link"></span></a>Configuration Settings</h3>
+
+			<p>Configuration starts with the editing of the Abandon Cart settings that control the timing and frequency of reminder emails. You access the settings from the <em>ExactTarget -> Configuration -> Abandon Cart</em> screen.</p>
+			
+			<p><a href="images/abandon-cart.png" data-lightbox="abandon-cart" data-title="Abandon Cart Configuration"><img src="images/abandon-cart.png" alt="Abandon Cart Configuration" /></a></p>
+			
+			<p>Set the configuration scope for the website/store whose abandon cart email functionality you wish to configure. Do not enable the abandon cart functionality until all the other configuration is complete. Please note that because the abandoned cart reminders require an email address only carts abandoned by registered and logged in customers will receive the notifications.</p>
+			
+			<p>First specify the <strong>Cart Age Unit</strong>. This is the unit of time used by the <strong>Cart Age</strong> value to determine if a shopping cart is abandoned. Set the <strong>Cart Age</strong> to the appropriate timespan value, after which a cart is considered abandoned. In the example above a cart with no activity after 5 minutes is considered abandoned.</p>
+			
+			<p>Next, if you would like to only send out abandon cart reminders for carts above a minimum amount set the <strong>Dollar Threshold</strong> value to the cutoff value. This will be the minimum value, above which an abandon cart email will be sent. If there is no value (or the value is 0) then reminders will be sent for all abandoned carts.</p>
+			
+			<p>The <strong>Days to Wait</strong> value is the number of calendar days to wait between sending the reminder emails. In the example above we are not waiting any extra time between sending the first, second and third email reminders.</p>
+			
+			<p>The <strong>Send 2nd Email Wait Time</strong> value is the amount of time to wait after sending the first abandoned cart email before sending the second reminder email (if more than one is configured). This time is consecutive with the <strong>Days to Wait</strong> value. The value can be any number of days, hours and/or minutes after the first reminder email is sent and is formatted as a timespan string. For example a value of <em>1D 10H 30M</em> will send 1 day, 10 hours and 30 minutes after the previous email. </p>
+
+			<p>The <strong>Send 3rd Email Wait Time</strong> is the amount of time to wait after sending the second abandoned cart email before sending the third reminder email (if more than two are configured). The setting is the same as the <strong>Send 2nd Email Wait Time</strong>.</p>
+			
+			<p>The <strong>Max Number of Reminders</strong> setting determines how many abandon cart notification emails will be sent to the customer. There is a hard limit of three (3) reminders per cart to ensure that customers are not sent too many notifications. Set the value to 1, 2 or 3 depending on how many notifications you wish to send the customer.</p>
+			
+			<p>The <strong>Apply incentive to 2nd Email</strong> setting controls if an incentive is included in the second abandoned cart notification email. If it is set to <em>Yes</em> then you can select the incentive coupon to apply to the email. Manage available coupons through <em>Promotions -> Shopping Cart Price Rules</em> and ensure that each rule uses a specific coupon as that is required for the incentive functionality. Note that if you create a new incentive you will need to clear your Magento caches before it is available as a selection.</p>
+			
+			<p>The <strong>Apply incentive to 3rd Email</strong> setting is identical to the <strong>Apply incentive to 2nd Email</strong> setting except it applies to the third notification email (if configured).</p>
+			
+			<p>The <strong>Start Date</strong> setting ensures that only carts created after the date are eligible to receive notifications. This will ensure that all carts abandoned before the installation of this extension will not be included in the selection logic.</p>
+			
+			<p>The <strong>Test Mode Enabled</strong> and <strong>Test Mode Email</strong> settings allow you to easily test the abandoned cart notification functionality. If test mode is enabled then all abandoned cart notification emails will be sent to the email address(es) listed in the <strong>Test Mode Email</strong> instead of the registered customer's email address.</p>
+			
+			<p>The <strong>Use these settings on the Abandon Cart Report</strong> setting controls if the above configured settings values are applied to the store specific abandon cart report.</p>
+
+			<p>The <strong>Opt Out Text</strong> setting holds the text content that is sent to the customer if they opt out of receiving abandon cart notifications.</p> 
+		</section>
+
+		<section id="email-options">
+			<h3><a name="email-options" class="anchor" href="#email-options"><span class="octicon octicon-link"></span></a>Email  Configuration</h3>
+			
+			<p>There are up to three transactional email mappings that support the abandon cart notification functionality. Depending on the <strong>Max Number of Reminders</strong> setting a customer can receive one to three emails over a given timespan reminding them about their abandoned shopping cart. In order to fulfill the abandon cart notifications with ExactTarget the transactional email mappings must be properly created. To set up the correct template mapping go to the email configuration screen via <em>ExactTarget -> Configuration -> Email</em>. The transactional email templates can be customized, for full details see <a href="http://precisiondialogue.github.io/Magento-ExactTarget-Email-Customization/" target="_blank">ExactTarget Connect Email Customizationon</a>.</p>
+			
+			<p><a href="images/email-config.png" data-lightbox="email-config" data-title="Email Configuration"><img src="images/email-config.png" alt="Email Configuration" /></a></p>
+			
+			<p>The first email that needs to be configured is that for the <strong>Abandon Cart</strong> email template code. This is the email template that is first sent to a customer who has abandoned a shopping cart. The email is sent at the first cron interval that occurs after the cart has reached the age configured in the <strong>Cart Age</strong> and <strong>Cart Age Unit</strong> configuration settings.</p>
+			
+			<p><a href="images/email-detail.png" data-lightbox="email-detail" data-title="Email Detail"><img src="images/email-detail.png" alt="Email Detail" /></a></p>
+			
+			<p>If there is more than one reminder configured (via the <strong>Max Number of Reminders</strong> setting) then a second email configuration is required. This email configuration is for the <strong>Abandon Cart - 1st Incentive</strong> email template code. This email will be sent at the first cron interval that occurs after the wait time settings for the second email notification have elapsed.</p>
+			
+			<p>If there are more than two reminders configured (via the <strong>Max Number of Reminders</strong> setting) then a third email configuration is required. This email configuration is for the <strong>Abandon Cart - 2nd Incentive</strong> email template code. This email will be sent at the first cron interval that occurs after the wait time settings for the third email notification have elapsed.</p>
+			
+			<p>The maximum number of abandon cart notifications is three, regardless of the value in the <strong>Max Number of Reminders</strong> setting.</p>
+		</section>
+		
+		<section id="cron">
+			<h3><a name="cron-settings" class="anchor" href="#cron-settings"><span class="octicon octicon-link"></span></a>Cron Requirements</h3>
+			<p>All abandon cart notification functionality is implemented by two Magento cron jobs. These jobs can be scheduled to run at any interval.</p> 
+			
+			<p>The first job, <strong>Abandon Cart: Find abandoned Carts</strong> is responsible for finding all of the abandoned carts that require a notification to be sent and sending the notification through ExactTarget. Any abandoned carts that meet the eligibility requirements will have the correct transactional email template sent to the customer.</p>
+			
+			<p>The second job, <strong>Abandon Cart: Update Expired Carts</strong> is responsible for cleaning up the details of abandoned carts that have expired and will no longer have notifications sent.</p>
+									
+		</section>
+		
+		<section id="final">
+			<h3><a name="final" class="anchor" href="#final"><span class="octicon octicon-link"></span></a>Final Steps</h3>
+			<p>Now that all of our configuration is complete, we have set the correct configuration values for sending abandoned cart notification emails and set up the transactional email template mapping, we can start taking advantage of sending and tracking abandoned cart notifications through ExactTarget. Navigate to <em>ExactTarget -> Configuration -> Abandon Cart</em>, select the appropriate configuration scope and set the <strong>Enabled</strong> value to <em>Yes</em>.</p>
+			
+			<p>When the abandon cart feature is enabled every time the <strong>Abandon Cart: Find abandoned Carts</strong> cron job executes customers who have abandoned shopping carts that meet the configured criteria will receive the appropriate notification email send through ExactTarget.</p> 
+						
+		</section>
+
+        <footer>
+          ExactTarget-Connect-Abandon-Cart is maintained by <a href="https://github.com/PrecisionDialogue">PrecisionDialogue</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
